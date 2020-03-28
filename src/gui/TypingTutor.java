@@ -22,7 +22,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     String panagramsList[];
     public static int numkeys = 0, correct = 0, incorrect = 0, currentindex = 0;
     double accuracy;
-    String df;
+    String lastIncorrectLetter;
     String keyText;
     String textArea;
     String panagrams;
@@ -34,6 +34,255 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     public TypingTutor() {
         initComponents();
         displayTextArea.addKeyListener(this);
+
+    }
+public void intializecode() {
+        keyButtons = new JButton[]{
+            TildeButton, oneButton, TwoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton,
+            nineButton, ZeroButton, minusButton, plusButton, backspaceButton, TabButton, QButton, WButton,
+            EButton, RButton, TButton, YButton, UButton, IButton, OButton, PButton, OpenBracketButton,
+            closedBracketButton, backSlashButton, capsButton, AButton, SButton, DButton, FButton, GButton, HButton,
+            JButton, KButton, LButton, semicolonButton, hashButton, EnterButton, ShiftButton, ZButton, XButton, CButton,
+            VButton, BButton, NButton, MButton, comaButton, dotButton, QuestionMarkButton, upArrowButton, downArrowButton,
+            leftArrowButton, rightArrowButton, backspaceButton
+        };
+
+        panagramsList = new String[]{"The quick brown fox jumped over the lazy dog", "hi", "A paragraph should consist of six to seven sentences. No, it should be no longer than three sentences long. Actually, it should include a topic sentence, several supporting sentences, and possibly a concluding sentence."};
+
+        lastIncorrectLetter = difficultnumLabel.getText();
+
+        panagramLabel.setText(panagramsList[0]);
+        panagrams = panagramsList[0];
+        keyText = displayTextArea.getText();
+        textArea = displayTextArea.getText();
+        subpanagram = panagramsList[0].substring(0, currentindex);
+        backspaceButton.setEnabled(false);
+
+    }
+   // records the key the unicode character which represted by a key pressed 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        intializecode();
+        if (currentindex < panagramsList[0].length()) {
+
+//        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+//            String keyText = displayTextArea.getText();
+//            int keycode = keyText.length();
+//            if (keycode != 0) {
+//                keyText = keyText.substring(0, keycode - 1);
+//
+//            }
+//
+//            displayTextArea.setText(keyText);
+//        } else {
+            displayTextArea.setText(displayTextArea.getText() + e.getKeyChar());
+
+//        }
+            wordsCheck(e.getKeyChar());
+        } else {
+        }
+    }
+
+    // method to check if the keys typed match the panagram
+    public void wordsCheck(char s) {
+//        if(panagramsList[0].charAt(currentindex)==textArea.equals(subpanagram)){
+//            
+//        }
+        if (currentindex <= panagramsList[0].length()) {
+
+            //to check if the key typed mathches the panagram at the current index
+            if (s != KeyEvent.VK_BACK_SPACE) {
+                if (s == panagrams.charAt(currentindex)) {
+                    correct++;
+                    correctLabel.setText(String.valueOf(correct));
+                } else {
+                    incorrect++;
+                    numofkeysincorrectLabel.setText(String.valueOf(incorrect));
+
+                    lastIncorrectLetter = lastIncorrectLetter + ' ' + s;
+                    if (difficultnumLabel.getText().contains(lastIncorrectLetter)) {
+                        difficultnumLabel.setText(lastIncorrectLetter);
+                    }
+                };
+                // increments the current index
+                currentindex++;
+
+                numkeys++;
+                accuracy = correct / panagrams.length() * 100;
+                System.out.println(accuracy);
+                System.out.println(panagrams.length());
+
+            }
+//              else if ( e.getKeyChar()==KeyEvent.VK_BACK_SPACE) {
+//                //to check if the key typed mathches the panagram at the current index
+//                if (e.getKeyChar() ==panagramsList[0].charAt(currentindex)) {
+//                    correct--;
+//                    correctLabel.setText(String.valueOf(correct));
+//                } else if(incorrect>0) {
+//                    incorrect--;
+//                    numofkeysincorrectLabel.setText(String.valueOf(incorrect));
+//
+//                }
+//                // increments the current index
+//                currentindex--;
+//            }
+        }
+
+    }
+
+// records when key is pressed down
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // adds the jbuttons from this method
+        intializecode();
+        int keycode = e.getKeyCode();
+// colors the jbuttons
+        for (int i = 0; i < keyButtons.length; i++) {
+            if (keyButtons[i].getText().equalsIgnoreCase(KeyEvent.getKeyText(keycode))) {
+                keyButtons[i].setBackground(Color.red);
+
+            }
+
+        }
+
+        switch (keycode) {
+
+            case 38:
+                upArrowButton.setBackground(Color.red);
+                break;
+
+            case 40:
+                downArrowButton.setBackground(Color.red);
+                break;
+            case 37:
+                leftArrowButton.setBackground(Color.red);
+                break;
+            case 39:
+                rightArrowButton.setBackground(Color.red);
+                break;
+            case 20:
+                capsButton.setBackground(Color.red);
+                break;
+            case 128:
+                TildeButton.setBackground(Color.red);
+                break;
+            case 91:
+                OpenBracketButton.setBackground(Color.red);
+                break;
+
+            case 93:
+                closedBracketButton.setBackground(Color.red);
+                break;
+            case 92:
+                backSlashButton.setBackground(Color.red);
+                break;
+
+            case 47:
+                QuestionMarkButton.setBackground(Color.red);
+                break;
+
+            case 520:
+                hashButton.setBackground(Color.red);
+                break;
+
+            case 59:
+                semicolonButton.setBackground(Color.red);
+                break;
+
+            case 32:
+                spaceButton.setBackground(Color.red);
+                break;
+            case 44:
+                comaButton.setBackground(Color.red);
+                break;
+            case 46:
+                dotButton.setBackground(Color.red);
+                break;
+            case 45:
+                minusButton.setBackground(Color.red);
+                break;
+            case 61:
+                plusButton.setBackground(Color.red);
+                break;
+
+        }
+
+    }
+// resets the buttons after a button is released 
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        intializecode();
+        int keycode = e.getKeyCode();
+        for (int i = 0; i < keyButtons.length; i++) {
+            if (keyButtons[i].getText().equals(KeyEvent.getKeyText(keycode))) {
+                keyButtons[i].setBackground(null);
+
+            }
+
+        }
+
+        switch (keycode) {
+
+            case 38:
+                upArrowButton.setBackground(null);
+                break;
+
+            case 40:
+                downArrowButton.setBackground(null);
+                break;
+            case 37:
+                leftArrowButton.setBackground(null);
+                break;
+            case 39:
+                rightArrowButton.setBackground(null);
+                break;
+            case 20:
+                capsButton.setBackground(null);
+                break;
+            case 128:
+                TildeButton.setBackground(null);
+                break;
+            case 91:
+                OpenBracketButton.setBackground(null);
+                break;
+
+            case 93:
+                closedBracketButton.setBackground(null);
+                break;
+            case 92:
+                backSlashButton.setBackground(null);
+                break;
+
+            case 47:
+                QuestionMarkButton.setBackground(null);
+                break;
+
+            case 520:
+                hashButton.setBackground(null);
+                break;
+
+            case 59:
+                semicolonButton.setBackground(null);
+                break;
+
+            case 32:
+                spaceButton.setBackground(null);
+
+                break;
+            case 44:
+                comaButton.setBackground(null);
+                break;
+            case 46:
+                dotButton.setBackground(null);
+                break;
+            case 45:
+                minusButton.setBackground(null);
+                break;
+            case 61:
+                plusButton.setBackground(null);
+                break;
+        }
 
     }
 
@@ -723,30 +972,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     }
 
     //a method to delcare values 
-    public void intializecode() {
-        keyButtons = new JButton[]{
-            TildeButton, oneButton, TwoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton,
-            nineButton, ZeroButton, minusButton, plusButton, backspaceButton, TabButton, QButton, WButton,
-            EButton, RButton, TButton, YButton, UButton, IButton, OButton, PButton, OpenBracketButton,
-            closedBracketButton, backSlashButton, capsButton, AButton, SButton, DButton, FButton, GButton, HButton,
-            JButton, KButton, LButton, semicolonButton, hashButton, EnterButton, ShiftButton, ZButton, XButton, CButton,
-            VButton, BButton, NButton, MButton, comaButton, dotButton, QuestionMarkButton, upArrowButton, downArrowButton,
-            leftArrowButton, rightArrowButton, backspaceButton
-        };
-
-        panagramsList = new String[]{"The quick brown fox jumped over the lazy dog", "hi", "A paragraph should consist of six to seven sentences. No, it should be no longer than three sentences long. Actually, it should include a topic sentence, several supporting sentences, and possibly a concluding sentence."};
-
-        df = difficultnumLabel.getText();
-
-        panagramLabel.setText(panagramsList[0]);
-        panagrams = panagramsList[0];
-        keyText = displayTextArea.getText();
-        textArea = displayTextArea.getText();
-        subpanagram = panagramsList[0].substring(0, currentindex);
-        backspaceButton.setEnabled(false);
-
-    }
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AButton;
@@ -828,231 +1054,6 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     private javax.swing.JButton upArrowButton;
     // End of variables declaration//GEN-END:variables
 
-    // records the key the unicode character which represted by a key pressed 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        intializecode();
-        if (currentindex < panagramsList[0].length()) {
-
-//        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-//            String keyText = displayTextArea.getText();
-//            int keycode = keyText.length();
-//            if (keycode != 0) {
-//                keyText = keyText.substring(0, keycode - 1);
-//
-//            }
-//
-//            displayTextArea.setText(keyText);
-//        } else {
-            displayTextArea.setText(displayTextArea.getText() + e.getKeyChar());
-
-//        }
-            wordsCheck(e.getKeyChar());
-        } else {
-        }
-    }
-
-    // method to check if the keys typed match the panagram
-    public void wordsCheck(char s) {
-//        if(panagramsList[0].charAt(currentindex)==textArea.equals(subpanagram)){
-//            
-//        }
-        if (currentindex <= panagramsList[0].length()) {
-
-            //to check if the key typed mathches the panagram at the current index
-            if (s != KeyEvent.VK_BACK_SPACE) {
-                if (s == panagrams.charAt(currentindex)) {
-                    correct++;
-                    correctLabel.setText(String.valueOf(correct));
-                } else {
-                    incorrect++;
-                    numofkeysincorrectLabel.setText(String.valueOf(incorrect));
-
-                    df = df + ' ' + s;
-                    if (difficultnumLabel.getText().contains(df)) {
-                        difficultnumLabel.setText(df);
-                    }
-                };
-                // increments the current index
-                currentindex++;
-
-                numkeys++;
-                accuracy = correct / panagrams.length() * 100;
-                System.out.println(accuracy);
-                System.out.println(panagrams.length());
-
-            }
-//              else if ( e.getKeyChar()==KeyEvent.VK_BACK_SPACE) {
-//                //to check if the key typed mathches the panagram at the current index
-//                if (e.getKeyChar() ==panagramsList[0].charAt(currentindex)) {
-//                    correct--;
-//                    correctLabel.setText(String.valueOf(correct));
-//                } else if(incorrect>0) {
-//                    incorrect--;
-//                    numofkeysincorrectLabel.setText(String.valueOf(incorrect));
-//
-//                }
-//                // increments the current index
-//                currentindex--;
-//            }
-        }
-
-    }
-
-// records when key is pressed down
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // adds the jbuttons from this method
-        intializecode();
-        int keycode = e.getKeyCode();
-// colors the jbuttons
-        for (int i = 0; i < keyButtons.length; i++) {
-            if (keyButtons[i].getText().equalsIgnoreCase(KeyEvent.getKeyText(keycode))) {
-                keyButtons[i].setBackground(Color.red);
-
-            }
-
-        }
-
-        switch (keycode) {
-
-            case 38:
-                upArrowButton.setBackground(Color.red);
-                break;
-
-            case 40:
-                downArrowButton.setBackground(Color.red);
-                break;
-            case 37:
-                leftArrowButton.setBackground(Color.red);
-                break;
-            case 39:
-                rightArrowButton.setBackground(Color.red);
-                break;
-            case 20:
-                capsButton.setBackground(Color.red);
-                break;
-            case 128:
-                TildeButton.setBackground(Color.red);
-                break;
-            case 91:
-                OpenBracketButton.setBackground(Color.red);
-                break;
-
-            case 93:
-                closedBracketButton.setBackground(Color.red);
-                break;
-            case 92:
-                backSlashButton.setBackground(Color.red);
-                break;
-
-            case 47:
-                QuestionMarkButton.setBackground(Color.red);
-                break;
-
-            case 520:
-                hashButton.setBackground(Color.red);
-                break;
-
-            case 59:
-                semicolonButton.setBackground(Color.red);
-                break;
-
-            case 32:
-                spaceButton.setBackground(Color.red);
-                break;
-            case 44:
-                comaButton.setBackground(Color.red);
-                break;
-            case 46:
-                dotButton.setBackground(Color.red);
-                break;
-            case 45:
-                minusButton.setBackground(Color.red);
-                break;
-            case 61:
-                plusButton.setBackground(Color.red);
-                break;
-
-        }
-
-    }
-// resets the buttons after a button is released 
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        intializecode();
-        int keycode = e.getKeyCode();
-        for (int i = 0; i < keyButtons.length; i++) {
-            if (keyButtons[i].getText().equals(KeyEvent.getKeyText(keycode))) {
-                keyButtons[i].setBackground(null);
-
-            }
-
-        }
-
-        switch (keycode) {
-
-            case 38:
-                upArrowButton.setBackground(null);
-                break;
-
-            case 40:
-                downArrowButton.setBackground(null);
-                break;
-            case 37:
-                leftArrowButton.setBackground(null);
-                break;
-            case 39:
-                rightArrowButton.setBackground(null);
-                break;
-            case 20:
-                capsButton.setBackground(null);
-                break;
-            case 128:
-                TildeButton.setBackground(null);
-                break;
-            case 91:
-                OpenBracketButton.setBackground(null);
-                break;
-
-            case 93:
-                closedBracketButton.setBackground(null);
-                break;
-            case 92:
-                backSlashButton.setBackground(null);
-                break;
-
-            case 47:
-                QuestionMarkButton.setBackground(null);
-                break;
-
-            case 520:
-                hashButton.setBackground(null);
-                break;
-
-            case 59:
-                semicolonButton.setBackground(null);
-                break;
-
-            case 32:
-                spaceButton.setBackground(null);
-
-                break;
-            case 44:
-                comaButton.setBackground(null);
-                break;
-            case 46:
-                dotButton.setBackground(null);
-                break;
-            case 45:
-                minusButton.setBackground(null);
-                break;
-            case 61:
-                plusButton.setBackground(null);
-                break;
-        }
-
-    }
+ 
 
 }
