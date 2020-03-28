@@ -1,10 +1,10 @@
-
 package gui;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
+import model.UserAccount;
 
 /**
  *
@@ -13,6 +13,7 @@ import javax.swing.JButton;
 public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 // gloable values
 
+    UserAccount userAccount = new UserAccount();
     JButton keyButtons[];
     String panagramsList[];
     public static int numkeys = 0, correct = 0, incorrect = 0, currentindex = 0;
@@ -28,10 +29,17 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
      */
     public TypingTutor() {
         initComponents();
+        intializecode();
         displayTextArea.addKeyListener(this);
 
     }
-public void intializecode() {
+
+    public void intializecode() {
+        keyButtons = new JButton[KeyEvent.KEY_LAST + 1];
+        keyButtons[KeyEvent.VK_0] = ZeroButton;
+
+        keyButtons[KeyEvent.VK_A] = AButton;
+
         keyButtons = new JButton[]{
             TildeButton, oneButton, TwoButton, threeButton, fourButton, fiveButton, sixButton, sevenButton, eightButton,
             nineButton, ZeroButton, minusButton, plusButton, backspaceButton, TabButton, QButton, WButton,
@@ -54,10 +62,10 @@ public void intializecode() {
         backspaceButton.setEnabled(false);
 
     }
-   // records the key the unicode character which represted by a key pressed 
+    // records the key the unicode character which represted by a key pressed 
+
     @Override
     public void keyTyped(KeyEvent e) {
-        intializecode();
         if (currentindex < panagramsList[0].length()) {
 
 //        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
@@ -73,28 +81,29 @@ public void intializecode() {
             displayTextArea.setText(displayTextArea.getText() + e.getKeyChar());
 
 //        }
-            wordsCheck(e.getKeyChar());
+            wordsCheck(e.getKeyCode(),e.getKeyChar(), panagramsList[0]);
         } else {
         }
     }
 
     // method to check if the keys typed match the panagram
-    public void wordsCheck(char s) {
+    public void wordsCheck(int keycode, char letter, String panagram) {
 //        if(panagramsList[0].charAt(currentindex)==textArea.equals(subpanagram)){
 //            
 //        }
-        if (currentindex <= panagramsList[0].length()) {
+        if (currentindex <= panagram.length()) {
 
             //to check if the key typed mathches the panagram at the current index
-            if (s != KeyEvent.VK_BACK_SPACE) {
-                if (s == panagrams.charAt(currentindex)) {
+            if (letter != KeyEvent.VK_BACK_SPACE) {
+                if (letter == panagrams.charAt(currentindex)) {
                     correct++;
                     correctLabel.setText(String.valueOf(correct));
+                    userAccount.getCorrectKeyScores()[keycode]++;
                 } else {
                     incorrect++;
                     numofkeysincorrectLabel.setText(String.valueOf(incorrect));
 
-                    lastIncorrectLetter = lastIncorrectLetter + ' ' + s;
+                    lastIncorrectLetter = lastIncorrectLetter + ' ' + letter;
                     if (difficultnumLabel.getText().contains(lastIncorrectLetter)) {
                         difficultnumLabel.setText(lastIncorrectLetter);
                     }
@@ -125,22 +134,34 @@ public void intializecode() {
 
     }
 
+    Color original = null;
+    Color pressedColor = Color.RED;
 // records when key is pressed down
+
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent keyEvent) {
         // adds the jbuttons from this method
-        intializecode();
-        int keycode = e.getKeyCode();
-// colors the jbuttons
+        int keyIndex = keyEvent.getKeyCode();
+        //
+        //JButton selectedButton = keyButtons[keyIndex];
+        //selectedButton.setBackground(pressedColor);
+
+        oldCodeToBeRemoved(keyIndex);
+
+    }
+// resets the buttons after a button is released 
+
+    private void oldCodeToBeRemoved(int keyIndex) {
+        // colors the jbuttons
         for (int i = 0; i < keyButtons.length; i++) {
-            if (keyButtons[i].getText().equalsIgnoreCase(KeyEvent.getKeyText(keycode))) {
+            if (keyButtons[i].getText().equalsIgnoreCase(KeyEvent.getKeyText(keyIndex))) {
                 keyButtons[i].setBackground(Color.red);
 
             }
 
         }
 
-        switch (keycode) {
+        switch (keyIndex) {
 
             case 38:
                 upArrowButton.setBackground(Color.red);
@@ -201,13 +222,10 @@ public void intializecode() {
                 break;
 
         }
-
     }
-// resets the buttons after a button is released 
 
     @Override
     public void keyReleased(KeyEvent e) {
-        intializecode();
         int keycode = e.getKeyCode();
         for (int i = 0; i < keyButtons.length; i++) {
             if (keyButtons[i].getText().equals(KeyEvent.getKeyText(keycode))) {
@@ -967,7 +985,6 @@ public void intializecode() {
     }
 
     //a method to delcare values 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AButton;
@@ -1048,7 +1065,5 @@ public void intializecode() {
     private javax.swing.JButton threeButton;
     private javax.swing.JButton upArrowButton;
     // End of variables declaration//GEN-END:variables
-
- 
 
 }
