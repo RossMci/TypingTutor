@@ -20,7 +20,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 
     JButton keyButtons[];
     String panagramsList[];
-    public static int numkeys=0 , correct=0, incorrect=0 ,currentindex=0;
+    public static int numkeys = 0, correct = 0, incorrect = 0, currentindex = 0;
     double accuracy;
     String df;
     String keyText;
@@ -739,13 +739,12 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
         df = difficultnumLabel.getText();
 
         panagramLabel.setText(panagramsList[0]);
-        panagrams=panagramsList[0];
+        panagrams = panagramsList[0];
         keyText = displayTextArea.getText();
         textArea = displayTextArea.getText();
         subpanagram = panagramsList[0].substring(0, currentindex);
         backspaceButton.setEnabled(false);
 
-                
     }
 
 
@@ -832,7 +831,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     // records the key the unicode character which represted by a key pressed 
     @Override
     public void keyTyped(KeyEvent e) {
- intializecode();
+        intializecode();
         if (currentindex < panagramsList[0].length()) {
 
 //        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
@@ -845,12 +844,11 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 //
 //            displayTextArea.setText(keyText);
 //        } else {
-           
-                displayTextArea.setText(displayTextArea.getText() + e.getKeyChar());
-            
+            displayTextArea.setText(displayTextArea.getText() + e.getKeyChar());
+
 //        }
-             wordsCheck(e.getKeyChar());
-        }else{
+            wordsCheck(e.getKeyChar());
+        } else {
         }
     }
 
@@ -860,7 +858,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 //            
 //        }
         if (currentindex <= panagramsList[0].length()) {
-     
+
             //to check if the key typed mathches the panagram at the current index
             if (s != KeyEvent.VK_BACK_SPACE) {
                 if (s == panagrams.charAt(currentindex)) {
@@ -870,20 +868,19 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
                     incorrect++;
                     numofkeysincorrectLabel.setText(String.valueOf(incorrect));
 
-                    df = df + ' ' +s;
-                    if(difficultnumLabel.getText().contains(df)){
-                    difficultnumLabel.setText(df);
+                    df = df + ' ' + s;
+                    if (difficultnumLabel.getText().contains(df)) {
+                        difficultnumLabel.setText(df);
                     }
-                }                               ;
+                };
                 // increments the current index
                 currentindex++;
-                
-                
-        numkeys++;
-        accuracy = correct/panagrams.length()*100 ;
-            System.out.println(accuracy );
-            System.out.println(panagrams.length());
-               
+
+                numkeys++;
+                accuracy = correct / panagrams.length() * 100;
+                System.out.println(accuracy);
+                System.out.println(panagrams.length());
+
             }
 //              else if ( e.getKeyChar()==KeyEvent.VK_BACK_SPACE) {
 //                //to check if the key typed mathches the panagram at the current index
