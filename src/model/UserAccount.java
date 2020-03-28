@@ -7,10 +7,13 @@ import java.awt.event.KeyEvent;
  * @author ross1
  */
 public class UserAccount {
+
     private String username;
     private String password;
-    private final int[] correctKeyScores= new int[KeyEvent.KEY_LAST+1];
-    private final int[] incorrectKeyScores= new int[KeyEvent.KEY_LAST+1];
+    private int correctKeyScoreTotal;
+    private int incorrectKeyScoreTotal;
+    private final int[] correctKeyScores = new int[KeyEvent.KEY_LAST + 1];
+    private final int[] incorrectKeyScores = new int[KeyEvent.KEY_LAST + 1];
 
     /**
      * @return the username
@@ -24,6 +27,11 @@ public class UserAccount {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void resetScores() {
+        correctKeyScoreTotal = 0;
+        incorrectKeyScoreTotal = 0;
     }
 
     /**
@@ -52,5 +60,30 @@ public class UserAccount {
      */
     public int[] getIncorrectKeyScores() {
         return incorrectKeyScores;
+    }
+
+    /**
+     * @return the correctKeyScoreTotal
+     */
+    public int getCorrectKeyScoreTotal() {
+        return correctKeyScoreTotal;
+    }
+
+    /**
+     * @return the incorrectKeyScoreTotal
+     */
+    public int getIncorrectKeyScoreTotal() {
+        return incorrectKeyScoreTotal;
+    }
+
+    public void incrementCorrectKeyScoreTotal() {
+        correctKeyScoreTotal++;
+    }
+
+    /**
+     * @return the incorrectKeyScoreTotal
+     */
+    public void incrementIncorrectKeyScoreTotal() {
+        incorrectKeyScoreTotal++;
     }
 }
