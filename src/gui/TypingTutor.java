@@ -37,7 +37,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     public void intializecode() {
         keyButtons = new JButton[KeyEvent.KEY_LAST + 1];
         keyButtons[KeyEvent.VK_0] = ZeroButton;
-
+        
         keyButtons[KeyEvent.VK_A] = AButton;
 
         keyButtons = new JButton[]{
