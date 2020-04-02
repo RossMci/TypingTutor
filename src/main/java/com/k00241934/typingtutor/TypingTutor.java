@@ -1,10 +1,10 @@
-package gui;
+package com.k00241934.typingtutor;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Stack;
 import javax.swing.JButton;
-import model.UserAccount;
 
 /**
  *
@@ -13,215 +13,252 @@ import model.UserAccount;
 public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 // gloable values
 
-    UserAccount userAccount = new UserAccount();
-    JButton keyButtons[];
-    String panagramsList[];
-    public int numkeys = 0, currentindex = 0;
-    double accuracy;
-    String lastIncorrectLetter;
-    String keyText;
-    String textArea;
-    String panagrams;
-    String subpanagram;
+	UserAccount userAccount = new UserAccount();
+	JButton keyButtons[];
+	String panagramsList[];
+	public int numkeys = 0, currentindex = 0;
+	int accuracy;
+	String lastIncorrectLetter;
+	String keyText;
+	String textArea;
+	String panagrams;
+	String subpanagram;
 
-    /**
-     * Creates new form TypingTutor
-     */
-    public TypingTutor() {
-        initComponents();
-        intializecode();
-        displayTextArea.addKeyListener(this);
+	Stack<Turn> turnStack = new Stack<Turn>();
 
-    }
+	/**
+	 * Creates new form TypingTutor
+	 */
+	public TypingTutor() {
+		initComponents();
+		intializecode();
+		displayTextArea.addKeyListener(this);
 
-    public void intializecode() {
-        keyButtons = new JButton[KeyEvent.KEY_LAST + 1];
+	}
 
-        keyButtons[KeyEvent.VK_0] = ZeroButton;
-        keyButtons[KeyEvent.VK_1] = oneButton;
-        keyButtons[KeyEvent.VK_2] = TwoButton;
-        keyButtons[KeyEvent.VK_3] = threeButton;
-        keyButtons[KeyEvent.VK_4] = fourButton;
-        keyButtons[KeyEvent.VK_5] = fiveButton;
-        keyButtons[KeyEvent.VK_6] = sixButton;
-        keyButtons[KeyEvent.VK_7] = sevenButton;
-        keyButtons[KeyEvent.VK_8] = eightButton;
-        keyButtons[KeyEvent.VK_9] = nineButton;
-        keyButtons[KeyEvent.VK_DOWN] = downArrowButton;
-        keyButtons[KeyEvent.VK_UP] = upArrowButton;
-        keyButtons[KeyEvent.VK_LEFT] = leftArrowButton;
-        keyButtons[KeyEvent.VK_RIGHT] = rightArrowButton;
-        keyButtons[KeyEvent.VK_BACK_SPACE] = backspaceButton;
-        keyButtons[KeyEvent.VK_CAPS_LOCK] = capsButton;
-        keyButtons[KeyEvent.VK_TAB] = TabButton;
-        keyButtons[KeyEvent.VK_SHIFT] = ShiftButton;
-        keyButtons[KeyEvent.VK_SPACE] = spaceButton;
-        keyButtons[KeyEvent.VK_PERIOD] = dotButton;
-        keyButtons[KeyEvent.VK_ENTER] = EnterButton;
-        keyButtons[KeyEvent.VK_CLOSE_BRACKET] = OpenBracketButton;
-        keyButtons[KeyEvent.VK_OPEN_BRACKET] = closedBracketButton;
+	public void intializecode() {
+		keyButtons = new JButton[KeyEvent.KEY_LAST + 1];
+
+		keyButtons[KeyEvent.VK_0] = ZeroButton;
+		keyButtons[KeyEvent.VK_1] = oneButton;
+		keyButtons[KeyEvent.VK_2] = TwoButton;
+		keyButtons[KeyEvent.VK_3] = threeButton;
+		keyButtons[KeyEvent.VK_4] = fourButton;
+		keyButtons[KeyEvent.VK_5] = fiveButton;
+		keyButtons[KeyEvent.VK_6] = sixButton;
+		keyButtons[KeyEvent.VK_7] = sevenButton;
+		keyButtons[KeyEvent.VK_8] = eightButton;
+		keyButtons[KeyEvent.VK_9] = nineButton;
+		keyButtons[KeyEvent.VK_DOWN] = downArrowButton;
+		keyButtons[KeyEvent.VK_UP] = upArrowButton;
+		keyButtons[KeyEvent.VK_LEFT] = leftArrowButton;
+		keyButtons[KeyEvent.VK_RIGHT] = rightArrowButton;
+		keyButtons[KeyEvent.VK_BACK_SPACE] = backspaceButton;
+		keyButtons[KeyEvent.VK_CAPS_LOCK] = capsButton;
+		keyButtons[KeyEvent.VK_TAB] = TabButton;
+		keyButtons[KeyEvent.VK_SHIFT] = ShiftButton;
+		keyButtons[KeyEvent.VK_SPACE] = spaceButton;
+		keyButtons[KeyEvent.VK_PERIOD] = dotButton;
+		keyButtons[KeyEvent.VK_ENTER] = EnterButton;
+		keyButtons[KeyEvent.VK_CLOSE_BRACKET] = OpenBracketButton;
+		keyButtons[KeyEvent.VK_OPEN_BRACKET] = closedBracketButton;
 //        keyButtons[KeyEvent.VK_SLASH] = SlashButton;
-        keyButtons[KeyEvent.VK_BACK_SLASH] = backSlashButton;
+		keyButtons[KeyEvent.VK_BACK_SLASH] = backSlashButton;
 //        keyButtons[KeyEvent.VK_EQUALS] = equalsButton;
-        keyButtons[KeyEvent.VK_COMMA] = comaButton;
-        keyButtons[KeyEvent.VK_MINUS] = minusButton;
-        keyButtons[KeyEvent.VK_SEMICOLON] = semicolonButton;
+		keyButtons[KeyEvent.VK_COMMA] = comaButton;
+		keyButtons[KeyEvent.VK_MINUS] = minusButton;
+		keyButtons[KeyEvent.VK_SEMICOLON] = semicolonButton;
 //        keyButtons[KeyEvent.VK_QUOTE] = quotationButton;
-        keyButtons[KeyEvent.VK_Q] = QButton;
-        keyButtons[KeyEvent.VK_W] = WButton;
-        keyButtons[KeyEvent.VK_E] = EButton;
-        keyButtons[KeyEvent.VK_R] = RButton;
-        keyButtons[KeyEvent.VK_T] = TButton;
-        keyButtons[KeyEvent.VK_Y] = YButton;
-        keyButtons[KeyEvent.VK_U] = UButton;
-        keyButtons[KeyEvent.VK_I] = IButton;
-        keyButtons[KeyEvent.VK_O] = OButton;
-        keyButtons[KeyEvent.VK_P] = PButton;
-        keyButtons[KeyEvent.VK_A] = AButton;
-        keyButtons[KeyEvent.VK_S] = SButton;
-        keyButtons[KeyEvent.VK_D] = DButton;
-        keyButtons[KeyEvent.VK_F] = FButton;
-        keyButtons[KeyEvent.VK_G] = GButton;
-        keyButtons[KeyEvent.VK_H] = HButton;
-        keyButtons[KeyEvent.VK_J] = JButton;
-        keyButtons[KeyEvent.VK_K] = KButton;
-        keyButtons[KeyEvent.VK_L] = LButton;
-        keyButtons[KeyEvent.VK_Z] = ZButton;
-        keyButtons[KeyEvent.VK_X] = XButton;
-        keyButtons[KeyEvent.VK_C] = CButton;
-        keyButtons[KeyEvent.VK_V] = VButton;
-        keyButtons[KeyEvent.VK_B] = BButton;
-        keyButtons[KeyEvent.VK_N] = NButton;
-        keyButtons[KeyEvent.VK_M] = MButton;
+		keyButtons[KeyEvent.VK_Q] = QButton;
+		keyButtons[KeyEvent.VK_W] = WButton;
+		keyButtons[KeyEvent.VK_E] = EButton;
+		keyButtons[KeyEvent.VK_R] = RButton;
+		keyButtons[KeyEvent.VK_T] = TButton;
+		keyButtons[KeyEvent.VK_Y] = YButton;
+		keyButtons[KeyEvent.VK_U] = UButton;
+		keyButtons[KeyEvent.VK_I] = IButton;
+		keyButtons[KeyEvent.VK_O] = OButton;
+		keyButtons[KeyEvent.VK_P] = PButton;
+		keyButtons[KeyEvent.VK_A] = AButton;
+		keyButtons[KeyEvent.VK_S] = SButton;
+		keyButtons[KeyEvent.VK_D] = DButton;
+		keyButtons[KeyEvent.VK_F] = FButton;
+		keyButtons[KeyEvent.VK_G] = GButton;
+		keyButtons[KeyEvent.VK_H] = HButton;
+		keyButtons[KeyEvent.VK_J] = JButton;
+		keyButtons[KeyEvent.VK_K] = KButton;
+		keyButtons[KeyEvent.VK_L] = LButton;
+		keyButtons[KeyEvent.VK_Z] = ZButton;
+		keyButtons[KeyEvent.VK_X] = XButton;
+		keyButtons[KeyEvent.VK_C] = CButton;
+		keyButtons[KeyEvent.VK_V] = VButton;
+		keyButtons[KeyEvent.VK_B] = BButton;
+		keyButtons[KeyEvent.VK_N] = NButton;
+		keyButtons[KeyEvent.VK_M] = MButton;
 
-        panagramsList = new String[]{"The quick brown fox jumped over the lazy dog", "hi", "A paragraph should consist of six to seven sentences. No, it should be no longer than three sentences long. Actually, it should include a topic sentence, several supporting sentences, and possibly a concluding sentence."};
+		panagramsList = new String[]{"The quick brown fox jumped over the lazy dog", "hi", "A paragraph should consist of six to seven sentences. No, it should be no longer than three sentences long. Actually, it should include a topic sentence, several supporting sentences, and possibly a concluding sentence."};
 
-        lastIncorrectLetter = difficultnumLabel.getText();
+		lastIncorrectLetter = difficultnumLabel.getText();
 
-        panagramLabel.setText(panagramsList[0]);
-        panagrams = panagramsList[0];
-        keyText = displayTextArea.getText();
-        textArea = displayTextArea.getText();
-        subpanagram = panagramsList[0].substring(0, currentindex);
-        backspaceButton.setEnabled(false);
+		panagramLabel.setText(panagramsList[0]);
+		panagrams = panagramsList[0];
+		keyText = displayTextArea.getText();
+		textArea = displayTextArea.getText();
+		subpanagram = panagramsList[0].substring(0, currentindex);
+//        backspaceButton.setEnabled(false);
 
-    }
-    // records the key the unicode character which represted by a key pressed 
+	}
+	// records the key the unicode character which represted by a key pressed 
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        if (currentindex < panagramsList[0].length()) {
+	@Override
+	public void keyTyped(KeyEvent evt) {
 
-//        if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-//            String keyText = displayTextArea.getText();
-//            int keycode = keyText.length();
-//            if (keycode != 0) {
-//                keyText = keyText.substring(0, keycode - 1);
-//
-//            }
-//
-//            displayTextArea.setText(keyText);
-//        } else {
-            displayTextArea.setText(displayTextArea.getText() + e.getKeyChar());
+		if (currentindex <= panagramsList[0].length()) {
 
-//        }
-            char character = e.getKeyChar();
-            int code = KeyEvent.getExtendedKeyCodeForChar(character);
-            wordsCheck(code, character, panagramsList[0]);
-        } else {
-        }
-    }
+			somethingPanagram(evt);
+		} else {
+		}
+	}
 
-    // method to check if the keys typed match the panagram
-    public void wordsCheck(int keycode, char letter, String panagram) {
+	private void somethingPanagram(KeyEvent evt) {
+
+		char character = evt.getKeyChar();
+		int keyCode = KeyEvent.getExtendedKeyCodeForChar(character);
+		//int keyCode = evt.getKeyCode();
+
+		wordsCheck(keyCode, character, panagramsList[0]);
+
+		if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+			undo();
+			correctDisplay();
+		} else {
+			displayTextArea.append(evt.getKeyChar() + "");
+		}
+
+	}
+
+	private void correctDisplay() {
+		String text = displayTextArea.getText();
+		int lenght = text.length();
+		if (lenght != 0) {
+			displayTextArea.setText(text.substring(0, lenght - 1));
+		}
+	}
+
+	// method to check if the keys typed match the panagram
+	public void wordsCheck(int keycode, char letter, String panagram) {
 //        if(panagramsList[0].charAt(currentindex)==textArea.equals(subpanagram)){
 //            
 //        }
-        if (currentindex <= panagram.length()) {
 
-            //to check if the key typed mathches the panagram at the current index
-            if (keycode != KeyEvent.VK_BACK_SPACE) {
-                if (letter == panagrams.charAt(currentindex)) {
-                    userAccount.incrementCorrectKeyScoreTotal();
-                    userAccount.getCorrectKeyScores()[keycode]++;
-                } else {
-                    userAccount.incrementIncorrectKeyScoreTotal();
-                    userAccount.getIncorrectKeyScores()[keycode]++;
+		if (currentindex <= panagram.length()) {
 
-                    lastIncorrectLetter = lastIncorrectLetter + ' ' + letter;
-                    if (difficultnumLabel.getText().contains(lastIncorrectLetter)) {
-                        difficultnumLabel.setText(lastIncorrectLetter);
-                    }
-                };
-                // increments the current index
-                currentindex++;
+			//to check if the key typed mathches the panagram at the current index
+			if (keycode != KeyEvent.VK_BACK_SPACE) {
+				Turn newTurn = new Turn();
 
-                numkeys++;
-                updateScoreBoard();
+				if (letter == panagrams.charAt(currentindex)) {
+					userAccount.incrementCorrectKeyScoreTotal();
+					userAccount.getCorrectKeyScores()[keycode]++;
+				} else {
+					userAccount.incrementIncorrectKeyScoreTotal();
+					userAccount.getIncorrectKeyScores()[keycode]++;
 
-            }
-//              else if ( e.getKeyChar()==KeyEvent.VK_BACK_SPACE) {
-//                //to check if the key typed mathches the panagram at the current index
-//                if (e.getKeyChar() ==panagramsList[0].charAt(currentindex)) {
-//                    correct--;
-//                    correctLabel.setText(String.valueOf(correct));
-//                } else if(incorrect>0) {
-//                    incorrect--;
-//                    numofkeysincorrectLabel.setText(String.valueOf(incorrect));
-//
-//                }
-//                // increments the current index
-//                currentindex--;
-//            }
-        }
+					lastIncorrectLetter = lastIncorrectLetter + ' ' + letter;
+					if (difficultnumLabel.getText().contains(lastIncorrectLetter)) {
+						difficultnumLabel.setText(lastIncorrectLetter);
+					}
+				};
 
-    }
+				// increments the current index
+				currentindex++;
 
-    private void updateScoreBoard() {
-        numofkeysincorrectLabel.setText(String.valueOf(userAccount.getIncorrectKeyScoreTotal()));
-        correctLabel.setText(String.valueOf(userAccount.getCorrectKeyScoreTotal()));
+				numkeys++;
+				turnStack.push(newTurn);
 
-        accuracy = userAccount.getCorrectKeyScoreTotal() / panagrams.length() * 100;
-        System.out.println(accuracy);
-        System.out.println(panagrams.length());
-    }
+			} else if (keycode == KeyEvent.VK_BACK_SPACE) {
+				if (currentindex > 0) {
+					Turn previousTurn = turnStack.pop();
 
-    Color original = null;
-    Color pressedColor = Color.RED;
+					if (previousTurn.win) {
+						userAccount.decrementCorrectKeyScoreTotal();
+						userAccount.getCorrectKeyScores()[previousTurn.keycode]--;
+					}
+					else
+					{
+						userAccount.decrementIncorrectKeyScoreTotal();
+						userAccount.getIncorrectKeyScores()[previousTurn.keycode]--;
+
+					}
+					if (letter == panagrams.charAt(currentindex)) {
+						userAccount.decrementCorrectKeyScoreTotal();
+					}
+					currentindex--;
+				}
+				numkeys++;
+			}
+			updateScoreBoard();
+		}
+
+	}
+
+	private void undo() {
+
+	}
+
+	private void updateScoreBoard() {
+		numofkeysincorrectLabel.setText(String.valueOf(userAccount.getIncorrectKeyScoreTotal()));
+		correctLabel.setText(String.valueOf(userAccount.getCorrectKeyScoreTotal()));
+
+		accuracy = (int) (userAccount.getCorrectKeyScoreTotal() / (double) panagrams.length() * 100);
+		accuracynumLabel.setText(accuracy + "%");
+	}
+
+	Color original = null;
+	Color pressedColor = Color.RED;
 // records when key is pressed down
 
-    @Override
-    public void keyPressed(KeyEvent event) {
-        colorKeyButton(event, pressedColor);
-    }
+	@Override
+	public void keyPressed(KeyEvent event) {
+		//colorKeyButton(event, pressedColor);
+	}
 
-    private void colorKeyButton(KeyEvent event, Color color) {
-        char character = event.getKeyChar();
-        int keyIndex = KeyEvent.getExtendedKeyCodeForChar(character);
-        JButton selectedButton = keyButtons[keyIndex];
-        selectedButton.setBackground(color);
-    }
+	private void colorKeyButton(KeyEvent event, Color color) {
+//        char character = event.getKeyChar();
+		int keyIndex = event.getKeyCode();//KeyEvent.getExtendedKeyCodeForChar(character);
+		JButton selectedButton = keyButtons[keyIndex];
+		selectedButton.setBackground(color);
+	}
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-        colorKeyButton(e, null);
-    }
+	@Override
+	public void keyReleased(KeyEvent e) {
+		//colorKeyButton(e, null);
+	}
 
-    //https://stackoverflow.com/questions/13668131/java-swing-virtual-keyboard-on-jframe/13668842
-    //
-    //  Event Handlers
-    //
-    private void resetLessonButtonAction() {
-        userAccount.resetScores();
-        updateScoreBoard();
-    }
+	//https://stackoverflow.com/questions/13668131/java-swing-virtual-keyboard-on-jframe/13668842
+	//
+	//  Event Handlers
+	//
+	private void resetLessonButtonAction() {
+		userAccount.resetScores();
+		displayTextArea.setText("");
+		updateScoreBoard();
+	}
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+	private void displayTextAreaKeyPressed_(KeyEvent evt) {
+		colorKeyButton(evt, pressedColor);
+	}
+
+	private void displayTextAreaKeyReleased_(KeyEvent evt) {
+		colorKeyButton(evt, null);
+	}
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -305,7 +342,10 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Typeing Tutor");
+        setFocusCycleRoot(false);
         setSize(new java.awt.Dimension(300, 300));
+
+        keyBoardPanel.setFocusable(false);
 
         TildeButton.setText("~");
         TildeButton.setFocusable(false);
@@ -316,6 +356,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
         });
 
         oneButton.setText("1");
+        oneButton.setFocusable(false);
         oneButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 oneButtonActionPerformed(evt);
@@ -323,6 +364,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
         });
 
         TwoButton.setText("2");
+        TwoButton.setFocusable(false);
         TwoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TwoButtonActionPerformed(evt);
@@ -330,110 +372,165 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
         });
 
         threeButton.setText("3");
+        threeButton.setFocusable(false);
 
         fourButton.setText("4");
+        fourButton.setFocusable(false);
 
         fiveButton.setText("5");
+        fiveButton.setFocusable(false);
 
         sixButton.setText("6");
+        sixButton.setFocusable(false);
 
         sevenButton.setText("7");
+        sevenButton.setFocusable(false);
 
         eightButton.setText("8");
+        eightButton.setFocusable(false);
 
         nineButton.setText("9");
+        nineButton.setFocusable(false);
 
         ZeroButton.setText("0");
+        ZeroButton.setFocusable(false);
 
         plusButton.setText("+");
+        plusButton.setFocusable(false);
 
         minusButton.setText("-");
+        minusButton.setFocusable(false);
 
         backspaceButton.setText("Backspace");
+        backspaceButton.setFocusable(false);
 
         QButton.setText("Q");
+        QButton.setFocusable(false);
 
         WButton.setText("W");
+        WButton.setFocusable(false);
 
         EButton.setText("E");
+        EButton.setFocusable(false);
 
         RButton.setText("R");
+        RButton.setFocusable(false);
 
         TButton.setText("T");
+        TButton.setFocusable(false);
 
         YButton.setText("Y");
+        YButton.setFocusable(false);
 
         OButton.setText("O");
+        OButton.setFocusable(false);
 
         IButton.setText("I");
+        IButton.setFocusable(false);
 
         TabButton.setText("Tabs");
+        TabButton.setFocusable(false);
 
         PButton.setText("P");
+        PButton.setFocusable(false);
 
         OpenBracketButton.setText("[");
+        OpenBracketButton.setFocusable(false);
 
         closedBracketButton.setText("]");
+        closedBracketButton.setFocusable(false);
 
         backSlashButton.setText("\\");
+            backSlashButton.setFocusable(false);
 
             AButton.setText("A");
+            AButton.setFocusable(false);
 
             SButton.setText("S");
+            SButton.setFocusable(false);
 
             DButton.setText("D");
+            DButton.setFocusable(false);
 
             GButton.setText("G");
+            GButton.setFocusable(false);
 
             FButton.setText("F");
+            FButton.setFocusable(false);
 
             KButton.setText("K");
+            KButton.setFocusable(false);
 
             HButton.setText("H");
+            HButton.setFocusable(false);
 
             JButton.setText("J");
+            JButton.setFocusable(false);
 
             LButton.setText("L");
+            LButton.setFocusable(false);
 
             semicolonButton.setText(";");
+            semicolonButton.setFocusable(false);
 
             hashButton.setText("#");
+            hashButton.setFocusable(false);
 
             EnterButton.setText("Enter");
+            EnterButton.setFocusable(false);
 
             ZButton.setText("Z");
+            ZButton.setFocusable(false);
 
             XButton.setText("X");
+            XButton.setFocusable(false);
 
             upArrowButton.setText("^");
+            upArrowButton.setFocusable(false);
 
             CButton.setText("C");
+            CButton.setFocusable(false);
 
             VButton.setText("V");
+            VButton.setFocusable(false);
 
             BButton.setText("B");
+            BButton.setFocusable(false);
 
             NButton.setText("N");
+            NButton.setFocusable(false);
 
             MButton.setText("M");
+            MButton.setFocusable(false);
 
             comaButton.setText(",");
+            comaButton.setFocusable(false);
 
             dotButton.setText(".");
+            dotButton.setFocusable(false);
 
             QuestionMarkButton.setText("?");
+            QuestionMarkButton.setFocusable(false);
 
             leftArrowButton.setText("<");
+            leftArrowButton.setFocusable(false);
+
+            spaceButton.setFocusable(false);
 
             rightArrowButton.setText(">");
+            rightArrowButton.setFocusable(false);
 
             downArrowButton.setText("↓");
+            downArrowButton.setFocusable(false);
 
             ShiftButton.setText("Shift");
+            ShiftButton.setFocusable(false);
 
             capsButton.setText("Caps");
+            capsButton.setFocusable(false);
 
             UButton.setText("U");
+            UButton.setFocusable(false);
 
             javax.swing.GroupLayout keyBoardPanelLayout = new javax.swing.GroupLayout(keyBoardPanel);
             keyBoardPanel.setLayout(keyBoardPanelLayout);
@@ -647,9 +744,22 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
                     .addContainerGap(16, Short.MAX_VALUE))
             );
 
+            displayPanel.setFocusable(false);
+
+            displayScrollPane.setFocusable(false);
+
             displayTextArea.setEditable(false);
             displayTextArea.setColumns(20);
             displayTextArea.setRows(5);
+            displayTextArea.setFocusCycleRoot(true);
+            displayTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    displayTextAreaKeyPressed(evt);
+                }
+                public void keyReleased(java.awt.event.KeyEvent evt) {
+                    displayTextAreaKeyReleased(evt);
+                }
+            });
             displayScrollPane.setViewportView(displayTextArea);
 
             javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
@@ -669,17 +779,22 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
             );
 
             textPanel.setBackground(new java.awt.Color(255, 255, 255));
+            textPanel.setFocusable(false);
 
             noteLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
             noteLabel.setText("Note: click the buttons will not write any text and any action and you cant go back  ");
+            noteLabel.setFocusable(false);
 
             howTouseLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
             howTouseLabel.setText("Type some Text using the keyboard . The key board will highlight the keys you hit and the text will be displayed");
+            howTouseLabel.setFocusable(false);
 
             currentpanagramLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             currentpanagramLabel.setText("current panagram:");
+            currentpanagramLabel.setFocusable(false);
 
             panagramLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            panagramLabel.setFocusable(false);
 
             javax.swing.GroupLayout textPanelLayout = new javax.swing.GroupLayout(textPanel);
             textPanel.setLayout(textPanelLayout);
@@ -719,35 +834,45 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 
             TrackingPanel.setBackground(new java.awt.Color(255, 255, 204));
             TrackingPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+            TrackingPanel.setFocusable(false);
 
             keyscorrecrLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             keyscorrecrLabel.setText("     Correct keys Typed");
+            keyscorrecrLabel.setFocusable(false);
 
             incorrectlabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             incorrectlabel.setText(" Typed key incorrect");
+            incorrectlabel.setFocusable(false);
 
             accuracyLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             accuracyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             accuracyLabel.setText("Accuracy");
+            accuracyLabel.setFocusable(false);
 
             accuracynumLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             accuracynumLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             accuracynumLabel.setText("100%");
+            accuracynumLabel.setFocusable(false);
 
             difficultkeysLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             difficultkeysLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             difficultkeysLabel.setText("difficult  keys");
+            difficultkeysLabel.setFocusable(false);
 
             difficultnumLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            difficultnumLabel.setFocusable(false);
 
             keysnumcorrectLabel.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
             keysnumcorrectLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            keysnumcorrectLabel.setFocusable(false);
 
             numofkeysincorrectLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
             numofkeysincorrectLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            numofkeysincorrectLabel.setFocusable(false);
 
             correctLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
             correctLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            correctLabel.setFocusable(false);
 
             resetLessonButton.setText("Reset");
             resetLessonButton.setFocusable(false);
@@ -857,11 +982,11 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
         }// </editor-fold>//GEN-END:initComponents
 
     private void TildeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TildeButtonActionPerformed
-        // TODO add your handling code here:
+		// TODO add your handling code here:
     }//GEN-LAST:event_TildeButtonActionPerformed
 
     private void TwoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TwoButtonActionPerformed
-        // TODO add your handling code here:
+		// TODO add your handling code here:
     }//GEN-LAST:event_TwoButtonActionPerformed
 
     private void oneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oneButtonActionPerformed
@@ -869,49 +994,57 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     }//GEN-LAST:event_oneButtonActionPerformed
 
     private void resetLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetLessonButtonActionPerformed
-        resetLessonButtonAction();
+		resetLessonButtonAction();
     }//GEN-LAST:event_resetLessonButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    private void displayTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_displayTextAreaKeyPressed
+		displayTextAreaKeyPressed_(evt);
+    }//GEN-LAST:event_displayTextAreaKeyPressed
+
+    private void displayTextAreaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_displayTextAreaKeyReleased
+		displayTextAreaKeyReleased_(evt);
+    }//GEN-LAST:event_displayTextAreaKeyReleased
+
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String args[]) {
+		/* Set the Nimbus look and feel */
+		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+		/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(TypingTutor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		//</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                TypingTutor typing = new TypingTutor();
-                typing.setVisible(true);
-                typing.intializecode();
+		/* Create and display the form */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				TypingTutor typing = new TypingTutor();
+				typing.setVisible(true);
+				typing.intializecode();
 
-            }
-        });
-    }
+			}
+		});
+	}
 
-    //a method to delcare values 
+	//a method to delcare values 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AButton;
