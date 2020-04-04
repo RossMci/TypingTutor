@@ -12,19 +12,17 @@ import javax.swing.JOptionPane;
  * @author ross1
  */
 public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener {
-// gloable values
 
+	//
+	//	Private Fields
+	//
+	Color buttonOriginalColor = null;
+	Color buttonPressedColor = Color.RED;
 	UserAccount userAccount;
 	JButton keyButtons[];
-	String panagramsList[];
 	public int numkeys = 0, currentindex = 0;
-	int accuracy;
-	String lastIncorrectLetter;
-	String keyText;
-	String textArea;
-	String panagrams;
-	String subpanagram;
-	
+	String panagramsList[];
+	String panagramOnDisplay;
 	Stack<Turn> turnStack = new Stack<>();
 	AppLauncherJFRame appLauncher;
 
@@ -37,17 +35,17 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 		initComponents();
 		intializecode();
 		displayTextArea.setText(userAccount.getEnteredText());
-		
-		currentindex=userAccount.getEnteredText().length();
-		
+
+		currentindex = userAccount.getEnteredText().length();
+
 		displayTextArea.addKeyListener(this);
 		updateScoreBoard();
-		
+
 	}
-	
+
 	private void intializecode() {
 		keyButtons = new JButton[KeyEvent.KEY_LAST + 1];
-		
+
 		keyButtons[KeyEvent.VK_0] = ZeroButton;
 		keyButtons[KeyEvent.VK_1] = oneButton;
 		keyButtons[KeyEvent.VK_2] = TwoButton;
@@ -104,18 +102,14 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 		keyButtons[KeyEvent.VK_B] = BButton;
 		keyButtons[KeyEvent.VK_N] = NButton;
 		keyButtons[KeyEvent.VK_M] = MButton;
-		
+
 		panagramsList = new String[]{
-			"The quick brown fox jumped over the lazy dog", "hi", "A paragraph should consist of six to seven sentences. No, it should be no longer than three sentences long. Actually, it should include a topic sentence, several supporting sentences, and possibly a concluding sentence."
+			"The quick brown fox jumped over the lazy dog", 
+			"A paragraph should consist of six to seven sentences. No, it should be no longer than three sentences long. Actually, it should include a topic sentence, several supporting sentences, and possibly a concluding sentence."
 		};
-		
-		lastIncorrectLetter = difficultnumLabel.getText();
-		
+
 		panagramLabel.setText(panagramsList[0]);
-		panagrams = panagramsList[0];
-		keyText = displayTextArea.getText();
-		textArea = displayTextArea.getText();
-		subpanagram = panagramsList[0].substring(0, currentindex);
+		panagramOnDisplay = panagramsList[0];
 //        backspaceButton.setEnabled(false);
 
 	}
@@ -123,31 +117,30 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 
 	@Override
 	public void keyTyped(KeyEvent evt) {
-		
+
 		if (currentindex <= panagramsList[0].length()) {
-			
+
 			somethingPanagram(evt);
 		} else {
 		}
 	}
-	
+
 	private void somethingPanagram(KeyEvent evt) {
-		
+
 		char character = evt.getKeyChar();
 		int keyCode = KeyEvent.getExtendedKeyCodeForChar(character);
 		//int keyCode = evt.getKeyCode();
 
 		wordsCheck(keyCode, character, panagramsList[0]);
-		
+
 		if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-			undo();
 			correctDisplay();
 		} else {
 			displayTextArea.append(evt.getKeyChar() + "");
 		}
-		
+
 	}
-	
+
 	private void correctDisplay() {
 		String text = displayTextArea.getText();
 		int lenght = text.length();
@@ -158,99 +151,87 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 
 	// method to check if the keys typed match the panagram
 	public void wordsCheck(int userLetterKeycode, char userLetter, String panagram) {
-//        if(panagramsList[0].charAt(currentindex)==textArea.equals(subpanagram)){
-//
-//        }
-
 		if (currentindex < panagram.length()) {
 
 			//to check if the key typed mathches the panagram at the current index
 			if (userLetterKeycode != KeyEvent.VK_BACK_SPACE) {
 				//To do finish turn code
-				final char expectedLetterInPanagram = panagrams.charAt(currentindex);
+				final char expectedLetterInPanagram = panagramOnDisplay.charAt(currentindex);
 				final int expectedLetterInPanagramKeyCode = KeyEvent.getExtendedKeyCodeForChar(expectedLetterInPanagram);
-				
+
 				var newTurn = new Turn();
 				newTurn.keycode = expectedLetterInPanagramKeyCode;
-				
+
 				if (userLetter == expectedLetterInPanagram) {
 					userAccount.incrementCorrectKeyScoreTotal();
 					userAccount.getCorrectKeyScores()[expectedLetterInPanagramKeyCode]++;
 					userAccount.setEnteredText(displayTextArea.getText());
 					newTurn.guessCorrect = true;
 				} else {
-					
+
 					userAccount.incrementIncorrectKeyScoreTotal();
 					userAccount.getIncorrectKeyScores()[expectedLetterInPanagramKeyCode]++;
 					userAccount.setEnteredText(displayTextArea.getText());
 					newTurn.guessCorrect = false;
-					lastIncorrectLetter = lastIncorrectLetter + ' ' + userLetter;
-					if (difficultnumLabel.getText().contains(lastIncorrectLetter)) {
-						difficultnumLabel.setText(lastIncorrectLetter);
-					}
 				}
 
 				// increments the current index
 				currentindex++;
-				
+
 				numkeys++;
 				turnStack.push(newTurn);
-				
+
 			} else if (userLetterKeycode == KeyEvent.VK_BACK_SPACE) {
 				if (currentindex > 0) {
-					Turn previousTurn = turnStack.pop();
-					
-					if (previousTurn.guessCorrect) {
-						userAccount.decrementCorrectKeyScoreTotal();
-						userAccount.getCorrectKeyScores()[previousTurn.keycode]--;
-					} else {
-						userAccount.decrementIncorrectKeyScoreTotal();
-						userAccount.getIncorrectKeyScores()[previousTurn.keycode]--;
-					}
-					currentindex--;
-					userAccount.setEnteredText(displayTextArea.getText());
+					undoLastTurn();
 				}
 				numkeys++;
 			}
 			updateScoreBoard();
+		} else {
+			JOptionPane.showMessageDialog(this, "Finished click ok to return to the app lanuncher");
+			this.resetKeyColors();
+			this.finishLesson();
 		}
-		else{
-//			JOptionPane.showMessageDialog(null, "Finished click ok to reset");
-			this.resetLesson();
+	}
+
+	private void undoLastTurn() {
+		Turn previousTurn = turnStack.pop();
+
+		if (previousTurn.guessCorrect) {
+			userAccount.decrementCorrectKeyScoreTotal();
+			userAccount.getCorrectKeyScores()[previousTurn.keycode]--;
+		} else {
+			userAccount.decrementIncorrectKeyScoreTotal();
+			userAccount.getIncorrectKeyScores()[previousTurn.keycode]--;
 		}
-		
+		currentindex--;
+		userAccount.setEnteredText(displayTextArea.getText());
 	}
-	
-	private void undo() {
-		
-	}
-	
+
 	private void updateScoreBoard() {
 		numofkeysincorrectLabel.setText(String.valueOf(userAccount.getIncorrectKeyScoreTotal()));
 		correctLabel.setText(String.valueOf(userAccount.getCorrectKeyScoreTotal()));
-		
-		accuracy = (int) (userAccount.getCorrectKeyScoreTotal() / (double) panagrams.length() * 100);
+
+		int accuracy = (int) (userAccount.getCorrectKeyScoreTotal() / (double) panagramOnDisplay.length() * 100);
 		accuracynumLabel.setText(accuracy + "%");
-		
+
 		difficultnumLabel.setText(userAccount.getIncorrectCharacters());
 	}
-	
-	Color original = null;
-	Color pressedColor = Color.RED;
-// records when key is pressed down
 
+// records when key is pressed down
 	@Override
 	public void keyPressed(KeyEvent event) {
-		//colorKeyButton(event, pressedColor);
+		//colorKeyButton(event, buttonPressedColor);
 	}
-	
+
 	private void colorKeyButton(KeyEvent event, Color color) {
 //        char character = event.getKeyChar();
 		int keyIndex = event.getKeyCode();//KeyEvent.getExtendedKeyCodeForChar(character);
 		JButton selectedButton = keyButtons[keyIndex];
 		selectedButton.setBackground(color);
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		//colorKeyButton(e, null);
@@ -260,21 +241,29 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 	//
 	//  Event Handlers
 	//
+	private void finishLesson() {
+		userAccount.resetScores();
+		userAccount.setEnteredText("");
+
+		this.appLauncher.setVisible(true);
+		this.dispose();
+	}
+
 	private void resetLesson() {
 		userAccount.resetScores();
 		turnStack.clear();
 		userAccount.setEnteredText("");
 		displayTextArea.setText("");
-		currentindex=0;
+		currentindex = 0;
 		updateScoreBoard();
 	}
-	
+
 	private void displayTextAreaKeyPressed_(KeyEvent evt) {
-		colorKeyButton(evt, pressedColor);
+		colorKeyButton(evt, buttonPressedColor);
 	}
-	
+
 	private void displayTextAreaKeyReleased_(KeyEvent evt) {
-		colorKeyButton(evt, null);
+		colorKeyButton(evt, buttonOriginalColor);
 	}
 
 	/**
@@ -1080,5 +1069,14 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
     private javax.swing.JButton threeButton;
     private javax.swing.JButton upArrowButton;
     // End of variables declaration//GEN-END:variables
+
+	private void resetKeyColors() {
+		for (JButton button : this.keyButtons) {
+			if (button != null) {
+
+				button.setBackground(buttonOriginalColor);
+			}
+		}
+	}
 
 }
