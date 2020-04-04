@@ -20,10 +20,19 @@ public class UserAccount implements Serializable {
 
 	private String username;
 	private String password;
+	private  String enteredText="";
+
+	public String getEnteredText() {
+		return enteredText;
+	}
+
+	public void setEnteredText(String enteredText) {
+		this.enteredText = enteredText;
+	}
 	private int correctKeyScoreTotal;
 	private int incorrectKeyScoreTotal;
-	private final int[] correctKeyScores = new int[KeyEvent.KEY_LAST + 1];
-	private final int[] incorrectKeyScores = new int[KeyEvent.KEY_LAST + 1];
+	private int[] correctKeyScores = new int[KeyEvent.KEY_LAST + 1];
+	private int[] incorrectKeyScores = new int[KeyEvent.KEY_LAST + 1];
 
 	/**
 	 * @return the username
@@ -42,7 +51,8 @@ public class UserAccount implements Serializable {
 	public void resetScores() {
 		correctKeyScoreTotal = 0;
 		incorrectKeyScoreTotal = 0;
-
+correctKeyScores = new int[KeyEvent.KEY_LAST + 1];
+	incorrectKeyScores = new int[KeyEvent.KEY_LAST + 1];
 	}
 
 	/**

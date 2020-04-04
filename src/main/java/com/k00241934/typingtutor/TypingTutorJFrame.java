@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Stack;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,7 +36,12 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 		this.userAccount = userAccount;
 		initComponents();
 		intializecode();
+		displayTextArea.setText(userAccount.getEnteredText());
+		
+		currentindex=userAccount.getEnteredText().length();
+		
 		displayTextArea.addKeyListener(this);
+		updateScoreBoard();
 		
 	}
 	
@@ -156,7 +162,7 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 //
 //        }
 
-		if (currentindex <= panagram.length()) {
+		if (currentindex < panagram.length()) {
 
 			//to check if the key typed mathches the panagram at the current index
 			if (userLetterKeycode != KeyEvent.VK_BACK_SPACE) {
@@ -170,11 +176,13 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 				if (userLetter == expectedLetterInPanagram) {
 					userAccount.incrementCorrectKeyScoreTotal();
 					userAccount.getCorrectKeyScores()[expectedLetterInPanagramKeyCode]++;
+					userAccount.setEnteredText(displayTextArea.getText());
 					newTurn.guessCorrect = true;
 				} else {
 					
 					userAccount.incrementIncorrectKeyScoreTotal();
 					userAccount.getIncorrectKeyScores()[expectedLetterInPanagramKeyCode]++;
+					userAccount.setEnteredText(displayTextArea.getText());
 					newTurn.guessCorrect = false;
 					lastIncorrectLetter = lastIncorrectLetter + ' ' + userLetter;
 					if (difficultnumLabel.getText().contains(lastIncorrectLetter)) {
@@ -200,10 +208,15 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 						userAccount.getIncorrectKeyScores()[previousTurn.keycode]--;
 					}
 					currentindex--;
+					userAccount.setEnteredText(displayTextArea.getText());
 				}
 				numkeys++;
 			}
 			updateScoreBoard();
+		}
+		else{
+//			JOptionPane.showMessageDialog(null, "Finished click ok to reset");
+			this.resetLesson();
 		}
 		
 	}
@@ -247,9 +260,12 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
 	//
 	//  Event Handlers
 	//
-	private void resetLessonButtonAction() {
+	private void resetLesson() {
 		userAccount.resetScores();
+		turnStack.clear();
+		userAccount.setEnteredText("");
 		displayTextArea.setText("");
+		currentindex=0;
 		updateScoreBoard();
 	}
 	
@@ -970,7 +986,7 @@ public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener
     }//GEN-LAST:event_oneButtonActionPerformed
 
     private void resetLessonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetLessonButtonActionPerformed
-		resetLessonButtonAction();
+		resetLesson();
     }//GEN-LAST:event_resetLessonButtonActionPerformed
 
     private void displayTextAreaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_displayTextAreaKeyPressed
