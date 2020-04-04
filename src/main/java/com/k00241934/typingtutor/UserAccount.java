@@ -64,7 +64,22 @@ public class UserAccount {
     public int[] getIncorrectKeyScores() {
         return incorrectKeyScores;
     }
+	
 
+	public String getIncorrectCharacters() {
+		String output="";
+		for (int index = 0; index < incorrectKeyScores.length; index++) {
+			if(incorrectKeyScores[index]>0)
+			{
+				String incorrectCharacter = KeyEvent.getKeyText(index);
+				output+=incorrectCharacter+" ";
+			}
+			
+		}
+        return output;
+    }
+	
+	
     /**
      * @return the correctKeyScoreTotal
      */

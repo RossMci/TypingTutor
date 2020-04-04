@@ -10,6 +10,6 @@ package com.k00241934.typingtutor;
  * @author ross1
  */
 public class Turn {
-	public boolean win;
+	public boolean guessCorrect;
 	public int keycode;
 }
