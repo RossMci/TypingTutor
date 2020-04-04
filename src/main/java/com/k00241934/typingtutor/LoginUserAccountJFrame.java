@@ -5,17 +5,23 @@
  */
 package com.k00241934.typingtutor;
 
+import java.awt.event.ActionEvent;
+
 /**
  *
  * @author ross1
  */
-public class loginUserAccount extends javax.swing.JFrame {
+public class LoginUserAccountJFrame extends javax.swing.JFrame {
 
 	/**
-	 * Creates new form loginUserAccount
+	 * Creates new form LoginUserAccountJFrame
 	 */
-	public loginUserAccount() {
+	AppLauncherJFRame appLauncher;
+
+	public LoginUserAccountJFrame(AppLauncherJFRame appLauncher) {
+		this.appLauncher = appLauncher;
 		initComponents();
+		this.errorJLabel.setVisible(false);
 	}
 
 	/**
@@ -34,6 +40,7 @@ public class loginUserAccount extends javax.swing.JFrame {
         PasswordTextField = new javax.swing.JTextField();
         LoginButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
+        errorJLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,8 +55,21 @@ public class loginUserAccount extends javax.swing.JFrame {
         passwordLabel.setText("Password:");
 
         LoginButton.setText("Login");
+        LoginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginButtonActionPerformed(evt);
+            }
+        });
 
         CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
+            }
+        });
+
+        errorJLabel.setForeground(new java.awt.Color(204, 0, 51));
+        errorJLabel.setText("incorrect login");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,18 +78,19 @@ public class loginUserAccount extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(144, 144, 144)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(LoginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                             .addComponent(userNameTextField)
                             .addComponent(jLabel1)
                             .addComponent(passwordLabel)
-                            .addComponent(PasswordTextField)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(CancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(LoginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(PasswordTextField)
+                            .addComponent(errorJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,58 +106,56 @@ public class loginUserAccount extends javax.swing.JFrame {
                 .addComponent(passwordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorJLabel)
+                .addGap(7, 7, 7)
                 .addComponent(LoginButton)
                 .addGap(18, 18, 18)
                 .addComponent(CancelButton)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-		/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(loginUserAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(loginUserAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(loginUserAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(loginUserAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
-		//</editor-fold>
+    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
 
-		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new loginUserAccount().setVisible(true);
-			}
-		});
-	}
+		this.appLauncher.setVisible(true);
+		this.setVisible(false);
+    }//GEN-LAST:event_CancelButtonActionPerformed
+
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+		this.LoginButtonActionPerformed_(evt);
+    }//GEN-LAST:event_LoginButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelButton;
     private javax.swing.JButton LoginButton;
     private javax.swing.JLabel LoginLabel;
     private javax.swing.JTextField PasswordTextField;
+    private javax.swing.JLabel errorJLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField userNameTextField;
     // End of variables declaration//GEN-END:variables
+
+	private void LoginButtonActionPerformed_(ActionEvent evt) {
+		var username = this.userNameTextField.getText();
+		var password = this.PasswordTextField.getText();
+
+		UserAccount userAccount = UserAccountRepository.GetUserAccountByCredentials(username, password);
+
+		if (userAccount == null) {
+			this.errorJLabel.setVisible(true);
+
+		} else {
+			this.errorJLabel.setVisible(false);
+
+			var typingTutor = new TypingTutorJFrame(appLauncher, userAccount);
+			typingTutor.setVisible(true);
+			this.setVisible(false);
+
+		}
+	}
 }

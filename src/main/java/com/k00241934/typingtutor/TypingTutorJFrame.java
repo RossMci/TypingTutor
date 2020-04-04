@@ -10,7 +10,7 @@ import javax.swing.JButton;
  *
  * @author ross1
  */
-public class TypingTutor extends javax.swing.JFrame implements KeyListener {
+public class TypingTutorJFrame extends javax.swing.JFrame implements KeyListener {
 // gloable values
 
 	UserAccount userAccount;
@@ -25,13 +25,13 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
 	String subpanagram;
 	
 	Stack<Turn> turnStack = new Stack<>();
-	AppLauncher appLauncher;
+	AppLauncherJFRame appLauncher;
 
 	/**
 	 * Creates new form TypingTutor
 	 */
-	TypingTutor(AppLauncher appLauncher, UserAccount userAccount) {
-		appLauncher = appLauncher;
+	TypingTutorJFrame(AppLauncherJFRame appLauncher, UserAccount userAccount) {
+		this.appLauncher = appLauncher;
 		this.userAccount = userAccount;
 		initComponents();
 		intializecode();
@@ -347,7 +347,7 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
         correctLabel = new javax.swing.JLabel();
         resetLessonButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Typeing Tutor");
         setFocusCycleRoot(false);
         setSize(new java.awt.Dimension(300, 300));
@@ -982,7 +982,6 @@ public class TypingTutor extends javax.swing.JFrame implements KeyListener {
     }//GEN-LAST:event_displayTextAreaKeyReleased
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-		this.setVisible(false);
 		this.appLauncher.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
