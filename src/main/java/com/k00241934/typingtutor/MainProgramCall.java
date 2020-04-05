@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author ross1
+ * set the main method of the project
  */
 public class MainProgramCall {
 		/**

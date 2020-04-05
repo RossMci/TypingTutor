@@ -8,6 +8,7 @@ package com.k00241934.typingtutor;
 /**
  *
  * @author ross1
+ * the turn values 
  */
 public class Turn {
 	public boolean guessCorrect;

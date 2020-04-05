@@ -32,39 +32,44 @@ public class AppLauncherJFRame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        welcomejLabel = new javax.swing.JLabel();
+        lauchAsGuestjButton = new javax.swing.JButton();
+        LoginButton = new javax.swing.JButton();
+        createNewUserjButton = new javax.swing.JButton();
         saveDatajButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("App Launcher");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Welcome Too Typing Tutor");
+        welcomejLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        welcomejLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        welcomejLabel.setText("Welcome Too Typing Tutor");
 
-        jButton1.setText("Launch As Guest");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        lauchAsGuestjButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lauchAsGuestjButton.setText("Launch As Guest");
+        lauchAsGuestjButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                lauchAsGuestjButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Login");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        LoginButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        LoginButton.setText("Login");
+        LoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                LoginButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Create new user");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        createNewUserjButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        createNewUserjButton.setText("Create new user");
+        createNewUserjButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                createNewUserjButtonActionPerformed(evt);
             }
         });
 
+        saveDatajButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         saveDatajButton.setText("save Data");
         saveDatajButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,76 +82,69 @@ public class AppLauncherJFRame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jButton2))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(saveDatajButton)))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(welcomejLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addComponent(lauchAsGuestjButton, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addComponent(LoginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addComponent(createNewUserjButton, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addComponent(saveDatajButton, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addGap(70, 70, 70)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addGap(37, 37, 37)
-                .addComponent(jButton3)
-                .addGap(42, 42, 42)
-                .addComponent(saveDatajButton)
-                .addContainerGap(181, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(welcomejLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lauchAsGuestjButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createNewUserjButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveDatajButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//This JButton action creates a new user guest and makes typing tutor visable and applaucher not visable
+    private void lauchAsGuestjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lauchAsGuestjButtonActionPerformed
 		var typingTutor = new TypingTutorJFrame(this, new UserAccount());
 		typingTutor.setVisible(true);
 		this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_lauchAsGuestjButtonActionPerformed
+// This action set the login gui visable and makes the applAucher not visable
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         var loginJframe= new LoginUserAccountJFrame(this);
 		loginJframe.setVisible(true);
 		this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
+    }//GEN-LAST:event_LoginButtonActionPerformed
+    // this button saves the user progress and the next login they will contuine where they left off 
     private void saveDatajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDatajButtonActionPerformed
 		try {
+			// calls the save method 
 			UserAccountRepository.save();
+			
 		} catch (IOException ex) {
+			// puts the data into the right username location so when the user logs in the data is saved
 			Logger.getLogger(AppLauncherJFRame.class.getName()).log(Level.SEVERE, null, ex);
 		}
     }//GEN-LAST:event_saveDatajButtonActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+// This method make the create user jframe visable 
+    private void createNewUserjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewUserjButtonActionPerformed
        var createJframe= new CreateUserAccountJFrame(this);
 		createJframe.setVisible(true);
 		this.setVisible(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_createNewUserjButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton LoginButton;
+    private javax.swing.JButton createNewUserjButton;
+    private javax.swing.JButton lauchAsGuestjButton;
     private javax.swing.JButton saveDatajButton;
+    private javax.swing.JLabel welcomejLabel;
     // End of variables declaration//GEN-END:variables
 }
